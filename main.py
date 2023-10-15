@@ -47,3 +47,5 @@ if __name__ == "__main__":
     input_directory = "C:\jakub.szczepanski\żżż_inne\DUPADUPA\dupa1"
     output_file = "C:\jakub.szczepanski\żżż_inne\DUPADUPA\histogram.jpg"
     main(input_directory, output_file)
+
+print("testowy print")
