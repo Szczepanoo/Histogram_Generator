@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+import os
 def generate_letter_histogram(file_path):
     letter_counts = {}
     try:
@@ -36,9 +37,9 @@ def save_histogram_to_file(letter_counts, output_file):
         plt.show()
 
 
-file_path = 'C:\\jakub.szczepanski\\Semestr III\\Specjalistyczne Oprogramowanie Narzędziowe\\Ćwiczenia\\SON_Projekt1\\source_file.txt'
-
-output_file = 'C:\\jakub.szczepanski\\Semestr III\\Specjalistyczne Oprogramowanie Narzędziowe\\Ćwiczenia\\SON_Projekt1\\histogram.png'
+sciezka = os.getcwd()
+file_path = sciezka+('\\source_file.txt')
+output_file = sciezka+('\\histogram.png')
 letter_counts = generate_letter_histogram(file_path)
 if letter_counts is not None:
     save_histogram_to_file(letter_counts, output_file)
