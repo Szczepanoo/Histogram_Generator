@@ -37,9 +37,42 @@ def save_histogram_to_file(letter_counts, output_file):
 
 
 file_path = 'C:\\jakub.szczepanski\\Semestr III\\Specjalistyczne Oprogramowanie Narzędziowe\\Ćwiczenia\\SON_Projekt1\\source_file.txt'
-
 output_file = 'C:\\jakub.szczepanski\\Semestr III\\Specjalistyczne Oprogramowanie Narzędziowe\\Ćwiczenia\\SON_Projekt1\\histogram.png'
+
+print("Wybierz skąd wprowadzić dane:")
+print("1. Wprowadź z klawiatury.")
+print("2. Podaj adres URL.")
+option = input("Wybierz (1-2):")
+text = ""
+flag = True
+while flag:
+    if option == "1":
+        text = input("Wprowadź tekst:")
+        flag = False
+        letter_counts = {}
+
+        for char in text:
+            if char.isalpha():
+                #char = char.lower()  #wyłączenie wielkich liter
+                if char in letter_counts:
+                    letter_counts[char] += 1
+                else:
+                    letter_counts[char] = 1
+
+        save_histogram_to_file(letter_counts,output_file)
+        print("Zapisano histogram do pliku histogram.png")
+
+    elif option == "2":
+        print("Coming soon...")
+        flag = False
+    else:
+        option = input("Błąd. Wybierz (1-2):")
+
+
+
+'''
 letter_counts = generate_letter_histogram(file_path)
 if letter_counts is not None:
     save_histogram_to_file(letter_counts, output_file)
     print("Zapisano histogram do pliku histogram.png")
+    '''
