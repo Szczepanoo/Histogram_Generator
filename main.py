@@ -1,7 +1,6 @@
-import matplotlib as plt
+import matplotlib.pyplot as plt
 def generate_letter_histogram(file_path):
     letter_counts = {}
-
     try:
         with open(file_path, 'r') as file:
             text = file.read()
@@ -29,9 +28,18 @@ def save_histogram_to_file(letter_counts, output_file):
         plt.ylabel('Liczba wystąpień')
         plt.title('Histogram częstotliwości liter')
 
-        # Ustaw etykiety na osi X
+
         plt.xticks(letters)
 
-        # Zapisz histogram do pliku PNG lub JPG
-        plt.savefig(output_file, format='png')  # Zmień 'png' na 'jpg' jeśli chcesz format JPG
+
+        plt.savefig(output_file, format='png')
         plt.show()
+
+
+file_path = 'C:\\jakub.szczepanski\\Semestr III\\Specjalistyczne Oprogramowanie Narzędziowe\\Ćwiczenia\\SON_Projekt1\\source_file.txt'
+
+output_file = 'C:\\jakub.szczepanski\\Semestr III\\Specjalistyczne Oprogramowanie Narzędziowe\\Ćwiczenia\\SON_Projekt1\\histogram.png'
+letter_counts = generate_letter_histogram(file_path)
+if letter_counts is not None:
+    save_histogram_to_file(letter_counts, output_file)
+    print("Zapisano histogram do pliku histogram.png")
