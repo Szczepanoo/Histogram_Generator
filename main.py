@@ -43,3 +43,4 @@ letter_counts = generate_letter_histogram(file_path)
 if letter_counts is not None:
     save_histogram_to_file(letter_counts, output_file)
     print("Zapisano histogram do pliku histogram.png")
+    print()
