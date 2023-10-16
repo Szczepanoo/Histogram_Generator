@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import os
+from PIL import Image
 def generate_letter_histogram(file_path):
     letter_counts = {}
     try:
@@ -36,6 +37,10 @@ def save_histogram_to_file(letter_counts, output_file):
         plt.savefig(output_file, format='png')
         plt.show()
 
+def ShowHistogram(file_path):
+    foto = Image.open(file_path)
+    foto.show()
+
 
 sciezka = os.getcwd()
 file_path = sciezka+('\\source_file.txt')
@@ -44,3 +49,9 @@ letter_counts = generate_letter_histogram(file_path)
 if letter_counts is not None:
     save_histogram_to_file(letter_counts, output_file)
     print("Zapisano histogram do pliku histogram.png")
+    ShowHistogram(output_file)
+    print("Czy chcesz usunąć plik histogram.png? (t/n)")
+    odp = input()
+    if odp == 't':
+        os.remove(output_file)
+        print("Usunięto plik histogram.png")
