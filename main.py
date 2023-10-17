@@ -1,3 +1,4 @@
+import urllib.request
 import matplotlib.pyplot as plt
 def generate_letter_histogram(file_path):
     letter_counts = {}
@@ -35,6 +36,16 @@ def save_histogram_to_file(letter_counts, output_file):
         plt.savefig(output_file, format='png')
         plt.show()
 
+def read_text_from_url(url):
+    try:
+        response = urllib.request.urlopen(url)
+        data = response.read()
+        text = data.decode("utf-8")
+        return text
+    except Exception as e:
+        print("Błąd podczas pobierania tekstu", e)
+        return ""
+
 
 file_path = 'C:\\jakub.szczepanski\\Semestr III\\Specjalistyczne Oprogramowanie Narzędziowe\\Ćwiczenia\\SON_Projekt1\\source_file.txt'
 output_file = 'C:\\jakub.szczepanski\\Semestr III\\Specjalistyczne Oprogramowanie Narzędziowe\\Ćwiczenia\\SON_Projekt1\\histogram.png'
@@ -47,8 +58,8 @@ text = ""
 flag = True
 while flag:
     if option == "1":
-        text = input("Wprowadź tekst:")
         flag = False
+        text = input("Wprowadź tekst:")
         letter_counts = {}
 
         for char in text:
@@ -63,8 +74,11 @@ while flag:
         print("Zapisano histogram do pliku histogram.png")
 
     elif option == "2":
-        print("Coming soon...")
         flag = False
+        url = input("Wprowadź adres: ")
+        text = read_text_from_url(url)
+        ge
+
     else:
         option = input("Błąd. Wybierz (1-2):")
 
