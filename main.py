@@ -1,12 +1,19 @@
+import matplotlib
 import matplotlib.pyplot as plt
 import os
-from PIL import Image
 import tkinter as tk
+matplotlib.use('TkAgg')
 from tkinter import ttk
 from tkinter import *
 from tkinter import filedialog as fd
 from tkinter.messagebox import showinfo
+from PIL import Image,ImageTk
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+from matplotlib.figure import Figure
 
+
+sciezka = os.getcwd()
+output_file = sciezka + ('\\histogram.png')
 
 def generate_letter_histogram(file_path):
     letter_counts = {}
@@ -48,45 +55,32 @@ def ShowHistogram(file_path):
     foto.show()
 
 
-def select_file():
-    filetypes = (
-        ('text files', '*.txt'),
-        ('All files', '*.*')
-    )
-
-    filename = fd.askopenfilename(
-        title='Open a file',
-        initialdir='/',
-        filetypes=filetypes)
-
-    showinfo(
-        title='Selected File',
-        message=filename
-    )
-
-
-file_path = StringVar()
-
-
 def get_file_path():
     global file_path
     # Open and return file path
-    file_path = filedialog.askopenfilename(title="Select A File",filetypes=(('text files', '*.txt'), ('All files', '*.*')))
-    file_path_var.set(file_path)
+    file_path = fd.askopenfilename(title="Select A File",filetypes=(('text files', '*.txt'), ('All files', '*.*')))
+
 
 
 # window
 window = tk.Tk()
 window.title('Tkinter Open File Dialog')
-window.resizable(False, False)
-window.geometry('600x600')
+
+
 # widgets
 b1 = tk.Button(window, text="Open File", command=get_file_path).pack()
+
+
+img = ImageTk.PhotoImage(Image.open(output_file))
+
+label = Label(frame, image = img)
+label.pack()
 # events
 # run
-file_path = file_path_var.get()
+
 window.mainloop()
 
-print(file_path)
-output_file = sciezka + ('\\histogram.png')
+
 letter_counts = generate_letter_histogram(file_path)
+if letter_counts is not None:
+    save_histogram_to_file(letter_counts, output_file)
