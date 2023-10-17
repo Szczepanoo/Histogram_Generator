@@ -1,23 +1,26 @@
 import urllib.request
 import matplotlib.pyplot as plt
-def generate_letter_histogram(file_path):
-    letter_counts = {}
+def read_text_from_file(file_path):
     try:
         with open(file_path, 'r') as file:
             text = file.read()
-            for char in text:
-                if char.isalpha():
-                    char = char.lower()
-                    if char in letter_counts:
-                        letter_counts[char] += 1
-                    else:
-                        letter_counts[char] = 1
     except FileNotFoundError:
         print("Nie można znaleźć pliku:", file_path)
         return None
 
-    return letter_counts
+    return text
 
+
+def generate_histogram_from_text(text):
+    letter_counts = {}
+    for char in text:
+        if char.isalpha():
+            # char = char.lower()  #wyłączenie wielkich liter
+            if char in letter_counts:
+                letter_counts[char] += 1
+            else:
+                letter_counts[char] = 1
+    return letter_counts
 
 def save_histogram_to_file(letter_counts, output_file):
     if letter_counts is not None:
@@ -60,24 +63,27 @@ while flag:
     if option == "1":
         flag = False
         text = input("Wprowadź tekst:")
-        letter_counts = {}
 
-        for char in text:
-            if char.isalpha():
-                #char = char.lower()  #wyłączenie wielkich liter
-                if char in letter_counts:
-                    letter_counts[char] += 1
-                else:
-                    letter_counts[char] = 1
 
         save_histogram_to_file(letter_counts,output_file)
-        print("Zapisano histogram do pliku histogram.png")
+
 
     elif option == "2":
         flag = False
         url = input("Wprowadź adres: ")
         text = read_text_from_url(url)
-        ge
+        letter_counts = {}
+
+        for char in text:
+            if char.isalpha():
+                # char = char.lower()  #wyłączenie wielkich liter
+                if char in letter_counts:
+                    letter_counts[char] += 1
+                else:
+                    letter_counts[char] = 1
+
+        save_histogram_to_file(letter_counts, output_file)
+        print("Zapisano histogram do pliku histogram.png")
 
     else:
         option = input("Błąd. Wybierz (1-2):")
