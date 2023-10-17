@@ -39,6 +39,8 @@ def save_histogram_to_file(letter_counts, output_file):
         plt.savefig(output_file, format='png')
         plt.show()
 
+        print("Zapisano histogram do pliku histogram.png")
+
 def read_text_from_url(url):
     try:
         response = urllib.request.urlopen(url)
@@ -48,6 +50,10 @@ def read_text_from_url(url):
     except Exception as e:
         print("Błąd podczas pobierania tekstu", e)
         return ""
+
+def generate_and_save(text,output_file):
+    save_histogram_to_file(generate_histogram_from_text(text),output_file)
+
 
 
 file_path = 'C:\\jakub.szczepanski\\Semestr III\\Specjalistyczne Oprogramowanie Narzędziowe\\Ćwiczenia\\SON_Projekt1\\source_file.txt'
@@ -64,35 +70,14 @@ while flag:
         flag = False
         text = input("Wprowadź tekst:")
 
-
-        save_histogram_to_file(letter_counts,output_file)
-
+        generate_and_save(text,output_file)
 
     elif option == "2":
         flag = False
         url = input("Wprowadź adres: ")
         text = read_text_from_url(url)
-        letter_counts = {}
 
-        for char in text:
-            if char.isalpha():
-                # char = char.lower()  #wyłączenie wielkich liter
-                if char in letter_counts:
-                    letter_counts[char] += 1
-                else:
-                    letter_counts[char] = 1
-
-        save_histogram_to_file(letter_counts, output_file)
-        print("Zapisano histogram do pliku histogram.png")
+        generate_and_save(text,output_file)
 
     else:
         option = input("Błąd. Wybierz (1-2):")
-
-
-
-'''
-letter_counts = generate_letter_histogram(file_path)
-if letter_counts is not None:
-    save_histogram_to_file(letter_counts, output_file)
-    print("Zapisano histogram do pliku histogram.png")
-    '''
