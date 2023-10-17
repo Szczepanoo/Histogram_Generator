@@ -15,23 +15,13 @@ def read_text_from_file(file_path):
 
 def generate_histogram_from_text(text, chars):
     letter_counts = {}
-    if chars == "":
-        for char in text:
-            if char.isalpha():
-                # char = char.lower()  #wyłączenie wielkich liter
-                if char in letter_counts:
-                    letter_counts[char] += 1
-                else:
-                    letter_counts[char] = 1
-    else:
-        for char in text:
-            if char in chars:
-                if char.isalpha():
-                    # char = char.lower()  #wyłączenie wielkich liter
-                    if char in letter_counts:
-                        letter_counts[char] += 1
-                    else:
-                        letter_counts[char] = 1
+    char_filter = set(chars)
+
+    for char in text:
+        if char.isalpha() and (not char_filter or char in char_filter):
+            #char = char.lower()  # Opcjonalnie: zamiana na małe litery
+            letter_counts[char] = letter_counts.get(char, 0) + 1
+
     return letter_counts
 
 
