@@ -64,6 +64,7 @@ output_file = sciezka + ('\\histogram.png')
 print("Wybierz skąd wprowadzić dane:")
 print("1. Wprowadź z klawiatury.")
 print("2. Podaj adres URL.")
+print("3. Wczytaj z pliku source.txt")
 option = input("Wybierz (1-2):")
 text = ""
 flag = True
@@ -79,5 +80,9 @@ while flag:
         text = read_text_from_url(url)
         generate_and_save(text, output_file)
 
+    elif option == "3":
+        flag = False
+        text = read_text_from_file(file_path)
+        generate_and_save(text,output_file)
     else:
         option = input("Błąd. Wybierz (1-2):")
