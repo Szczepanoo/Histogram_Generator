@@ -1,6 +1,11 @@
 import matplotlib.pyplot as plt
 import os
 from PIL import Image
+import tkinter as tk
+from tkinter import ttk
+from tkinter import filedialog as fd
+from tkinter.messagebox import showinfo
+
 def generate_letter_histogram(file_path):
     letter_counts = {}
     try:
@@ -41,6 +46,39 @@ def ShowHistogram(file_path):
     foto = Image.open(file_path)
     foto.show()
 
+def select_file():
+    filetypes = (
+        ('text files', '*.txt'),
+        ('All files', '*.*')
+    )
+
+    filename = fd.askopenfilename(
+        title='Open a file',
+        initialdir='/',
+        filetypes=filetypes)
+
+    showinfo(
+        title='Selected File',
+        message=filename
+    )
+
+#window
+window = tk.Tk()
+window.title('Tkinter Open File Dialog')
+window.resizable(False, False)
+window.geometry('600x600')
+
+#widgets
+open_button = ttk.Button(
+    window,
+    text='Open a File',
+    command=select_file
+)
+
+open_button.pack(expand=True)
+#events
+#run
+window.mainloop()
 
 sciezka = os.getcwd()
 file_path = sciezka+('\\source_file.txt')
