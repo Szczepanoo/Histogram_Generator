@@ -2,7 +2,7 @@ import urllib.request
 import matplotlib.pyplot as plt
 import os
 
-def read_text_from_file(file_path):
+def ReAdTeXtFrOmFiLe(file_path):
     try:
         with open(file_path, 'r') as file:
             text = file.read()
@@ -13,7 +13,7 @@ def read_text_from_file(file_path):
     return text
 
 
-def generate_histogram_from_text(text):
+def GeNeRaTeHiStOgRaMFrOmTeXt(text):
     letter_counts = {}
     for char in text:
         if char.isalpha():
@@ -25,7 +25,7 @@ def generate_histogram_from_text(text):
     return letter_counts
 
 
-def save_histogram_to_file(letter_counts, output_file):
+def SaVeHiStOgRaMtOfIlE(letter_counts, output_file):
     if letter_counts is not None:
         letters = list(letter_counts.keys())
         counts = list(letter_counts.values())
@@ -43,7 +43,7 @@ def save_histogram_to_file(letter_counts, output_file):
         print("Zapisano histogram do pliku histogram.png")
 
 
-def read_text_from_url(url):
+def ReAdTeXtFrOmUrL(url):
     try:
         response = urllib.request.urlopen(url)
         data = response.read()
@@ -54,35 +54,35 @@ def read_text_from_url(url):
         return ""
 
 
-def generate_and_save(text, output_file):
-    save_histogram_to_file(generate_histogram_from_text(text), output_file)
+def GeNeRaTeAnDsAvE(text, output_file):
+    SaVeHiStOgRaMtOfIlE(GeNeRaTeHiStOgRaMFrOmTeXt(text), output_file)
 
 
-sciezka = os.getcwd()
-file_path = sciezka + ('\\source_file.txt')
-output_file = sciezka + ('\\histogram.png')
+ScIeZkA = os.getcwd()
+FiLe_PaTh = sciezka + ('\\source_file.txt')
+OuTpUt_FiLe = sciezka + ('\\histogram.png')
 print("Wybierz skąd wprowadzić dane:")
 print("1. Wprowadź z klawiatury.")
 print("2. Podaj adres URL.")
 print("3. Wczytaj z pliku source.txt")
-option = input("Wybierz (1-2):")
-text = ""
-flag = True
-while flag:
-    if option == "1":
-        flag = False
-        text = input("Wprowadź tekst:")
-        generate_and_save(text, output_file)
+OpTiOn = input("Wybierz (1-2):")
+TeXt = ""
+FlAg = True
+while FlAg:
+    if OpTiOn == "1":
+        FlAg = False
+        TeXt = input("Wprowadź tekst:")
+        GeNeRaTeAnDsAvE(TeXt, OuTpUt_FiLe)
 
-    elif option == "2":
-        flag = False
-        url = input("Wprowadź adres: ")
-        text = read_text_from_url(url)
-        generate_and_save(text, output_file)
+    elif OpTiOn == "2":
+        FlAg = False
+        UrL = input("Wprowadź adres: ")
+        TeXt = ReAdTeXtFrOmUrL(UrL)
+        GeNeRaTeAnDsAvE(TeXt, OuTpUt_FiLe)
 
-    elif option == "3":
-        flag = False
-        text = read_text_from_file(file_path)
-        generate_and_save(text,output_file)
+    elif OpTiOn == "3":
+        FlAg = False
+        TeXt = ReAdTeXtFrOmFiLe(FiLe_PaTh)
+        GeNeRaTeAnDsAvE(TeXt,OuTpUt_FiLe)
     else:
-        option = input("Błąd. Wybierz (1-2):")
+        OpTiOn = input("Błąd. Wybierz (1-2):")
