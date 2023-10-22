@@ -59,8 +59,8 @@ def GeNeRaTeAnDsAvE(text, output_file):
 
 
 ScIeZkA = os.getcwd()
-FiLe_PaTh = sciezka + ('\\source_file.txt')
-OuTpUt_FiLe = sciezka + ('\\histogram.png')
+FiLe_PaTh = ScIeZkA + ('\\source_file.txt')
+OuTpUt_FiLe = ScIeZkA + ('\\histogram.png')
 print("Wybierz skąd wprowadzić dane:")
 print("1. Wprowadź z klawiatury.")
 print("2. Podaj adres URL.")
