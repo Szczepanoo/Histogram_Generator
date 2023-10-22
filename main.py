@@ -49,37 +49,23 @@ def save_histogram_to_file(letter_counts, output_file):
         plt.savefig(output_file, format='png')
         plt.show()
 
-
-def ShowHistogram(file_path):
-    foto = Image.open(file_path)
-    foto.show()
-
-
 def get_file_path():
     global file_path
     # Open and return file path
     file_path = fd.askopenfilename(title="Select A File",filetypes=(('text files', '*.txt'), ('All files', '*.*')))
 
 
-
 # window
 window = tk.Tk()
-window.title('Tkinter Open File Dialog')
-
-
+window.title('Histogram')
+window.resizable(False, False)
+window.geometry('300x150')
 # widgets
-b1 = tk.Button(window, text="Open File", command=get_file_path).pack()
-
-
-img = ImageTk.PhotoImage(Image.open(output_file))
-
-label = Label(frame, image = img)
-label.pack()
+b1 = tk.Button(window, text="Open File", command=get_file_path).pack(pady = 10)
+b2 = Button(window, text = 'Zamknij okno i wyswietl histogram', command = window.destroy).pack(pady = 10)
 # events
 # run
-
 window.mainloop()
-
 
 letter_counts = generate_letter_histogram(file_path)
 if letter_counts is not None:
