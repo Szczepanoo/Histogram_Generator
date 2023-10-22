@@ -1,6 +1,7 @@
 import urllib.request
 import matplotlib.pyplot as plt
 import os
+from PIL import Image
 
 def ReAdTeXtFrOmFiLe(file_path):
     try:
@@ -73,16 +74,34 @@ while FlAg:
         FlAg = False
         TeXt = input("Wprowadź tekst:")
         GeNeRaTeAnDsAvE(TeXt, OuTpUt_FiLe)
+        ShowHistogram(output_file)
+        print("Czy chcesz usunąć plik histogram.png? (t/n)")
+        OdP = input()
+        if OdP == 't':
+            os.remove(output_file)
+            print("Usunięto plik histogram.png")
 
     elif OpTiOn == "2":
         FlAg = False
         UrL = input("Wprowadź adres: ")
         TeXt = ReAdTeXtFrOmUrL(UrL)
         GeNeRaTeAnDsAvE(TeXt, OuTpUt_FiLe)
+        ShowHistogram(output_file)
+        print("Czy chcesz usunąć plik histogram.png? (t/n)")
+        OdP = input()
+        if OdP == 't':
+            os.remove(output_file)
+            print("Usunięto plik histogram.png")
 
     elif OpTiOn == "3":
         FlAg = False
         TeXt = ReAdTeXtFrOmFiLe(FiLe_PaTh)
         GeNeRaTeAnDsAvE(TeXt,OuTpUt_FiLe)
+        ShowHistogram(output_file)
+        print("Czy chcesz usunąć plik histogram.png? (t/n)")
+        OdP = input()
+        if OdP == 't':
+            os.remove(output_file)
+            print("Usunięto plik histogram.png")
     else:
         OpTiOn = input("Błąd. Wybierz (1-2):")
