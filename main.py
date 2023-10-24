@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import os
 from PIL import Image
+import urllib
 
 def ReAdTeXtFrOmFiLe(file_path):
     try:
@@ -106,7 +107,7 @@ while FlAg:
         TeXt = ReAdTeXtFrOmFiLe(FiLe_PaTh)
         GeNeRaTeAnDsAvE(TeXt, LiTeRy, OuTpUt_FiLe)
         ShOwHiStOgRaM(OuTpUt_FiLe)
-        nie
+
     else:
         OpTiOn = input("Błąd. Wybierz (1-3):")
 
