@@ -1,6 +1,10 @@
-import urllib.request
 import matplotlib.pyplot as plt
-def read_text_from_file(file_path):
+import os
+from PIL import Image
+import urllib.request
+
+
+def ReAdTeXtFrOmFiLe(file_path):
     try:
         with open(file_path, 'r') as file:
             text = file.read()
@@ -11,18 +15,18 @@ def read_text_from_file(file_path):
     return text
 
 
-def generate_histogram_from_text(text):
+def GeNeRaTeHiStOgRaMFrOmTeXt(text, chars):
     letter_counts = {}
+    char_filter = set(chars)
+
     for char in text:
-        if char.isalpha():
-            # char = char.lower()  #wyłączenie wielkich liter
-            if char in letter_counts:
-                letter_counts[char] += 1
-            else:
-                letter_counts[char] = 1
+        if char.isalpha() and (not char_filter or char in char_filter):
+            # char = char.lower()  # Opcjonalnie: zamiana na małe litery
+            letter_counts[char] = letter_counts.get(char, 0) + 1
     return letter_counts
 
-def save_histogram_to_file(letter_counts, output_file):
+
+def SaVeHiStOgRaMtOfIlE(letter_counts, output_file):
     if letter_counts is not None:
         letters = list(letter_counts.keys())
         counts = list(letter_counts.values())
@@ -32,17 +36,15 @@ def save_histogram_to_file(letter_counts, output_file):
         plt.ylabel('Liczba wystąpień')
         plt.title('Histogram częstotliwości liter')
 
-
         plt.xticks(letters)
-
 
         plt.savefig(output_file, format='png')
         plt.show()
 
         print("Zapisano histogram do pliku histogram.png")
 
-#funkcja wczytująca
-def read_text_from_url(url):
+
+def ReAdTeXtFrOmUrL(url):
     try:
         response = urllib.request.urlopen(url)
         data = response.read()
@@ -52,33 +54,58 @@ def read_text_from_url(url):
         print("Błąd podczas pobierania tekstu", e)
         return ""
 
-def generate_and_save(text,output_file):
-    save_histogram_to_file(generate_histogram_from_text(text),output_file)
+
+# Funkcja generuje i zapisuje histogram
+def GeNeRaTeAnDsAvE(text, chars, output_file):
+    SaVeHiStOgRaMtOfIlE(GeNeRaTeHiStOgRaMFrOmTeXt(text, chars), output_file)
 
 
+def ShOwHiStOgRaM(file_path):
+    FoTo = Image.open(file_path)
+    FoTo.show()
+    print("Czy chcesz usunąć plik histogram.png? (tak/nie)")
+    OdP = input()
+    if OdP.lower() == 'tak' or OdP.lower == 't':
+        os.remove(OuTpUt_FiLe)
+        print("Usunięto plik histogram.png")
 
-file_path = 'C:\\jakub.szczepanski\\Semestr III\\Specjalistyczne Oprogramowanie Narzędziowe\\Ćwiczenia\\SON_Projekt1\\source_file.txt'
-output_file = 'C:\\jakub.szczepanski\\Semestr III\\Specjalistyczne Oprogramowanie Narzędziowe\\Ćwiczenia\\SON_Projekt1\\histogram.png'
+
+ScIeZkA = os.getcwd()
+FiLe_PaTh = ScIeZkA + ('\\source_file.txt')
+OuTpUt_FiLe = ScIeZkA + ('\\histogram.png')
+print("Domyślnie liczane są wszystkie litery w tekście.")
+AnS = input("Czy chcesz podać listę liter do sprawdzenia? (tak/nie): ")
+LiTeRy = ""
+if AnS.lower() == "tak" or AnS.lower() == "t":
+    LiTeRy = input("Podaj zestaw liter, oddziel poszczególne litery znakiem ','. Przykład: a,b,c : ")
+    LiTeRy = LiTeRy.split(",")
 
 print("Wybierz skąd wprowadzić dane:")
 print("1. Wprowadź z klawiatury.")
 print("2. Podaj adres URL.")
-option = input("Wybierz (1-2):")
-text = ""
-flag = True
-while flag:
-    if option == "1":
-        flag = False
-        text = input("Wprowadź tekst:")
+print("3. Wczytaj z pliku source.txt")
+OpTiOn = input("Wybierz (1-2):")
+TeXt = ""
+FlAg = True
+while FlAg:
+    if OpTiOn == "1":
+        FlAg = False
+        TeXt = input("Wprowadź tekst:")
+        GeNeRaTeAnDsAvE(TeXt, LiTeRy, OuTpUt_FiLe)
+        ShOwHiStOgRaM(OuTpUt_FiLe)
 
-        generate_and_save(text,output_file)
+    elif OpTiOn == "2":
+        FlAg = False
+        UrL = input("Wprowadź adres: ")
+        TeXt = ReAdTeXtFrOmUrL(UrL)
+        GeNeRaTeAnDsAvE(TeXt, LiTeRy, OuTpUt_FiLe)
+        ShOwHiStOgRaM(OuTpUt_FiLe)
 
-    elif option == "2":
-        flag = False
-        url = input("Wprowadź adres: ")
-        text = read_text_from_url(url)
-
-        generate_and_save(text,output_file)
+    elif OpTiOn == "3":
+        FlAg = False
+        TeXt = ReAdTeXtFrOmFiLe(FiLe_PaTh)
+        GeNeRaTeAnDsAvE(TeXt, LiTeRy, OuTpUt_FiLe)
+        ShOwHiStOgRaM(OuTpUt_FiLe)
 
     else:
-        option = input("Błąd. Wybierz (1-2):")
+        OpTiOn = input("Błąd. Wybierz (1-3):")
