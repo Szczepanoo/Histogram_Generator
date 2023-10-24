@@ -1,3 +1,4 @@
+import urllib.request
 import matplotlib.pyplot as plt
 import os
 from PIL import Image
@@ -36,7 +37,9 @@ def SaVeHiStOgRaMtOfIlE(letter_counts, output_file):
         plt.ylabel('Liczba wystąpień')
         plt.title('Histogram częstotliwości liter')
 
+
         plt.xticks(letters)
+
 
         plt.savefig(output_file, format='png')
         plt.show()
