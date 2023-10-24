@@ -62,6 +62,11 @@ def GeNeRaTeAnDsAvE(text, chars, output_file):
 def ShOwHiStOgRaM(file_path):
     FoTo = Image.open(file_path)
     FoTo.show()
+    print("Czy chcesz usunąć plik histogram.png? (tak/nie)")
+    OdP = input()
+    if OdP.lower() == 'tak' or OdP.lower == 't':
+        os.remove(OuTpUt_FiLe)
+        print("Usunięto plik histogram.png")
 
 
 ScIeZkA = os.getcwd()
@@ -88,11 +93,6 @@ while FlAg:
         TeXt = input("Wprowadź tekst:")
         GeNeRaTeAnDsAvE(TeXt, LiTeRy, OuTpUt_FiLe)
         ShOwHiStOgRaM(OuTpUt_FiLe)
-        print("Czy chcesz usunąć plik histogram.png? (t/n)")
-        OdP = input()
-        if OdP == 't':
-            os.remove(OuTpUt_FiLe)
-            print("Usunięto plik histogram.png")
 
     elif OpTiOn == "2":
         FlAg = False
@@ -100,22 +100,13 @@ while FlAg:
         TeXt = ReAdTeXtFrOmUrL(UrL)
         GeNeRaTeAnDsAvE(TeXt, LiTeRy, OuTpUt_FiLe)
         ShOwHiStOgRaM(OuTpUt_FiLe)
-        print("Czy chcesz usunąć plik histogram.png? (t/n)")
-        OdP = input()
-        if OdP == 't':
-            os.remove(OuTpUt_FiLe)
-            print("Usunięto plik histogram.png")
 
     elif OpTiOn == "3":
         FlAg = False
         TeXt = ReAdTeXtFrOmFiLe(FiLe_PaTh)
         GeNeRaTeAnDsAvE(TeXt, LiTeRy, OuTpUt_FiLe)
         ShOwHiStOgRaM(OuTpUt_FiLe)
-        print("Czy chcesz usunąć plik histogram.png? (t/n)")
-        OdP = input()
-        if OdP == 't':
-            os.remove(OuTpUt_FiLe)
-            print("Usunięto plik histogram.png")
+        nie
     else:
         OpTiOn = input("Błąd. Wybierz (1-3):")
 
