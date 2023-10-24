@@ -1,17 +1,14 @@
+from tkinter import *
+from tkinter import filedialog as fd
+import urllib.request
 import matplotlib
 import urllib.request
 import matplotlib.pyplot as plt
 import os
-#from PIL import Image
 import urllib.request
 import tkinter as tk
 matplotlib.use('TkAgg')
-#from tkinter import ttk
-from tkinter import *
-from tkinter import filedialog as fd
-#from tkinter.messagebox import showinfo
-#from PIL import Image,ImageTk
-import urllib.request
+
 
 def ReAdTeXtFrOmFiLe(file_path):
     try:
@@ -45,9 +42,7 @@ def SaVeHiStOgRaMtOfIlE(letter_counts, output_file):
         plt.ylabel('Liczba wystąpień')
         plt.title('Histogram częstotliwości liter')
 
-
         plt.xticks(letters)
-
 
         plt.savefig(output_file, format='png')
         plt.show()
@@ -71,22 +66,26 @@ def GeNeRaTeAnDsAvE(text, chars, output_file):
     SaVeHiStOgRaMtOfIlE(GeNeRaTeHiStOgRaMFrOmTeXt(text, chars), output_file)
 
 
-def ShOwHiStOgRaM(file_path):
-    print("Czy chcesz usunąć plik histogram.png? (tak/nie)")
-    OdP = input()
-    if OdP.lower() == 'tak' or OdP.lower == 't':
-        os.remove(OuTpUt_FiLe)
-        print("Usunięto plik histogram.png")
+def ReMoVeHiStOgRaM():
+    odp = input("Czy chcesz usunąć plik histogram.png? (tak/nie)").lower()
+    temp_flag = True
+    while temp_flag:
+        if odp == 'tak' or odp == 't':
+            temp_flag = False
+            os.remove(OuTpUt_FiLe)
+            print("Usunięto plik histogram.png")
+        elif odp != "nie" or odp != "n":
+            odp = input("Błąd. Wpisz 'tak' lub 'nie': ").lower()
 
 
 ScIeZkA = os.getcwd()
-FiLe_PaTh = ScIeZkA + ('\\source_file.txt')
-OuTpUt_FiLe = ScIeZkA + ('\\histogram.png')
+FiLe_PaTh = ScIeZkA + '\\source_file.txt'
+OuTpUt_FiLe = ScIeZkA + '\\histogram.png'
 LiTeRy = ""
-WyBoR = input("Czy chcesz korzystać z wersji konsolowej cz werjsi okienkowej? (konsola/okienko)")
+WyBoR = input("Chcesz korzystać z wersji konsolowej czy wersji okienkowej? (konsola/okienko)").lower()
 FlAg = True
 while FlAg:
-    if WyBoR.lower() == "konsola" or WyBoR.lower() == "k":
+    if WyBoR == "konsola" or WyBoR == "k":
         FlAg = False
         print("Domyślnie zliczane są wszystkie litery w tekście.")
         AnS = input("Czy chcesz podać listę liter do sprawdzenia? (tak/nie): ")
@@ -107,20 +106,20 @@ while FlAg:
                 FlAg2 = False
                 TeXt = input("Wprowadź tekst:")
                 GeNeRaTeAnDsAvE(TeXt, LiTeRy, OuTpUt_FiLe)
-                ShOwHiStOgRaM(OuTpUt_FiLe)
+                ReMoVeHiStOgRaM()
 
             elif OpTiOn == "2":
                 FlAg2 = False
                 UrL = input("Wprowadź adres: ")
                 TeXt = ReAdTeXtFrOmUrL(UrL)
                 GeNeRaTeAnDsAvE(TeXt, LiTeRy, OuTpUt_FiLe)
-                ShOwHiStOgRaM(OuTpUt_FiLe)
+                ReMoVeHiStOgRaM()
 
             elif OpTiOn == "3":
                 FlAg2 = False
                 TeXt = ReAdTeXtFrOmFiLe(FiLe_PaTh)
                 GeNeRaTeAnDsAvE(TeXt, LiTeRy, OuTpUt_FiLe)
-                ShOwHiStOgRaM(OuTpUt_FiLe)
+                ReMoVeHiStOgRaM()
 
             else:
                 OpTiOn = input("Błąd. Wybierz (1-3):")
@@ -137,17 +136,18 @@ while FlAg:
 
 
         def GeTfIlEpAtH():
-            global file_path
             # Open and return file path
-            file_path = fd.askopenfilename(title="Select A File", filetypes=(('text files', '*.txt'), ('All files', '*.*')))
-            TeXt = ReAdTeXtFrOmFiLe(FiLe_PaTh)
-            GeNeRaTeAnDsAvE(TeXt, LiTeRy, OuTpUt_FiLe)
+            file_path = fd.askopenfilename(title="Select A File",
+                                           filetypes=(('text files', '*.txt'), ('All files', '*.*')))
+            text = ReAdTeXtFrOmFiLe(file_path)
+            GeNeRaTeAnDsAvE(text, LiTeRy, OuTpUt_FiLe)
 
 
         def getvalueURL():
             val = mystring.get()
             text = ReAdTeXtFrOmUrL(val)
             GeNeRaTeAnDsAvE(text, LiTeRy, OuTpUt_FiLe)
+
 
         def getvalueTXT():
             val = mystring2.get()
@@ -162,16 +162,14 @@ while FlAg:
         label2.place(x=40, y=60)
         inp = Entry(window, width=20, textvariable=mystring)
         inp.place(x=160, y=60)
-        b2 = Button(window, text="Wyświetl histogram z url" , command=getvalueURL)
+        b2 = Button(window, text="Wyświetl histogram z url", command=getvalueURL)
         b2.place(x=320, y=55)
-        label3 = Label(window, text="Wprowadź url:")
+        label3 = Label(window, text="Wprowadź tekst:")
         label3.place(x=40, y=100)
         inp = Entry(window, width=20, textvariable=mystring2)
         inp.place(x=160, y=100)
         b3 = Button(window, text="Wyświetl histogram z wprowadzonego textu", command=getvalueTXT)
         b3.place(x=320, y=95)
-
-
 
         # events
         # run
