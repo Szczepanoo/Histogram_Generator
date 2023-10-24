@@ -1,8 +1,9 @@
 import urllib.request
 import matplotlib.pyplot as plt
 import os
+from PIL import Image
 
-def read_text_from_file(file_path):
+def ReAdTeXtFrOmFiLe(file_path):
     try:
         with open(file_path, 'r') as file:
             text = file.read()
@@ -13,7 +14,7 @@ def read_text_from_file(file_path):
     return text
 
 
-def generate_histogram_from_text(text, chars):
+def GeNeRaTeHiStOgRaMFrOmTeXt(text, chars):
     letter_counts = {}
     char_filter = set(chars)
 
@@ -25,7 +26,7 @@ def generate_histogram_from_text(text, chars):
     return letter_counts
 
 
-def save_histogram_to_file(letter_counts, output_file):
+def SaVeHiStOgRaMtOfIlE(letter_counts, output_file):
     if letter_counts is not None:
         letters = list(letter_counts.keys())
         counts = list(letter_counts.values())
@@ -43,7 +44,7 @@ def save_histogram_to_file(letter_counts, output_file):
         print("Zapisano histogram do pliku histogram.png")
 
 
-def read_text_from_url(url):
+def ReAdTeXtFrOmUrL(url):
     try:
         response = urllib.request.urlopen(url)
         data = response.read()
@@ -54,42 +55,64 @@ def read_text_from_url(url):
         return ""
 
 
-def generate_and_save(text, chars, output_file):
-    save_histogram_to_file(generate_histogram_from_text(text, chars), output_file)
+def GeNeRaTeAnDsAvE(text, chars, output_file):
+    SaVeHiStOgRaMtOfIlE(GeNeRaTeHiStOgRaMFrOmTeXt(text), output_file)
 
+def ShOwHiStOgRaM(file_path):
+    FoTo = Image.open(file_path)
+    FoTo.show()
 
-sciezka = os.getcwd()
-file_path = sciezka + ('\\source_file.txt')
-output_file = sciezka + ('\\histogram.png')
+ScIeZkA = os.getcwd()
+FiLe_PaTh = ScIeZkA + ('\\source_file.txt')
+OuTpUt_FiLe = ScIeZkA + ('\\histogram.png')
 print("Domyślnie liczane są wszystkie litery w tekście.")
-ans = input("Czy chcesz podać listę liter do sprawdzenia? (tak/nie): ")
-litery = ""
-if ans.lower() == "tak" or ans.lower() == "t":
-    litery = input("Podaj zestaw liter, oddziel poszczególne litery znakiem ','. Przykład: a,b,c : ")
-    litery = litery.split(",")
+AnS = input("Czy chcesz podać listę liter do sprawdzenia? (tak/nie): ")
+LiTeRy = ""
+if AnS.lower() == "tak" or AnS.lower() == "t":
+    LiTeRy = input("Podaj zestaw liter, oddziel poszczególne litery znakiem ','. Przykład: a,b,c : ")
+    LiTeRy = LiTeRy.split(",")
 
 
 print("Wybierz skąd wprowadzić dane:")
 print("1. Wprowadź z klawiatury.")
 print("2. Podaj adres URL.")
 print("3. Wczytaj z pliku source.txt")
-option = input("Wybierz (1-2):")
-flag = True
-while flag:
-    if option == "1":
-        flag = False
-        text = input("Wprowadź tekst:")
-        generate_and_save(text, litery, output_file,)
+OpTiOn = input("Wybierz (1-2):")
+TeXt = ""
+FlAg = True
+while FlAg:
+    if OpTiOn == "1":
+        FlAg = False
+        TeXt = input("Wprowadź tekst:")
+        GeNeRaTeAnDsAvE(TeXt, LiTeRy, OuTpUt_FiLe)
+        ShOwHiStOgRaM(OuTpUt_FiLe)
+        print("Czy chcesz usunąć plik histogram.png? (t/n)")
+        OdP = input()
+        if OdP == 't':
+            os.remove(OuTpUt_FiLe)
+            print("Usunięto plik histogram.png")
 
-    elif option == "2":
-        flag = False
-        url = input("Wprowadź adres: ")
-        text = read_text_from_url(url)
-        generate_and_save(text, litery, output_file)
+    elif OpTiOn == "2":
+        FlAg = False
+        UrL = input("Wprowadź adres: ")
+        TeXt = ReAdTeXtFrOmUrL(UrL)
+        GeNeRaTeAnDsAvE(TeXt, LiTeRy, OuTpUt_FiLe)
+        ShOwHiStOgRaM(OuTpUt_FiLe)
+        print("Czy chcesz usunąć plik histogram.png? (t/n)")
+        OdP = input()
+        if OdP == 't':
+            os.remove(OuTpUt_FiLe)
+            print("Usunięto plik histogram.png")
 
-    elif option == "3":
-        flag = False
-        text = read_text_from_file(file_path)
-        generate_and_save(text, litery, output_file)
+    elif OpTiOn == "3":
+        FlAg = False
+        TeXt = ReAdTeXtFrOmFiLe(FiLe_PaTh)
+        GeNeRaTeAnDsAvE(TeXt, LiTeRy, OuTpUt_FiLe)
+        ShOwHiStOgRaM(OuTpUt_FiLe)
+        print("Czy chcesz usunąć plik histogram.png? (t/n)")
+        OdP = input()
+        if OdP == 't':
+            os.remove(OuTpUt_FiLe)
+            print("Usunięto plik histogram.png")
     else:
-        option = input("Błąd. Wybierz (1-2):")
+        OpTiOn = input("Błąd. Wybierz (1-2):")
