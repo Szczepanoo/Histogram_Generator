@@ -8,8 +8,6 @@ from tkinter import *
 from tkinter import filedialog as fd
 from tkinter.messagebox import showinfo
 from PIL import Image,ImageTk
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
-from matplotlib.figure import Figure
 import urllib.request
 
 
