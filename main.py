@@ -1,4 +1,3 @@
-import urllib.request
 import matplotlib.pyplot as plt
 import os
 from PIL import Image
@@ -6,11 +5,11 @@ from PIL import Image
 def ReAdTeXtFrOmFiLe(file_path):
     try:
         with open(file_path, 'r') as file:
-            text = file.read()
+            text = file.read()      
     except FileNotFoundError:
         print("Nie można znaleźć pliku:", file_path)
         return None
-
+      
     return text
 
 
@@ -22,7 +21,6 @@ def GeNeRaTeHiStOgRaMFrOmTeXt(text, chars):
         if char.isalpha() and (not char_filter or char in char_filter):
             #char = char.lower()  # Opcjonalnie: zamiana na małe litery
             letter_counts[char] = letter_counts.get(char, 0) + 1
-
     return letter_counts
 
 
@@ -36,7 +34,9 @@ def SaVeHiStOgRaMtOfIlE(letter_counts, output_file):
         plt.ylabel('Liczba wystąpień')
         plt.title('Histogram częstotliwości liter')
 
+
         plt.xticks(letters)
+
 
         plt.savefig(output_file, format='png')
         plt.show()
@@ -118,3 +118,5 @@ while FlAg:
             print("Usunięto plik histogram.png")
     else:
         OpTiOn = input("Błąd. Wybierz (1-3):")
+
+
