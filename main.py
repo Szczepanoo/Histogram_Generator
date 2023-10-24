@@ -83,10 +83,9 @@ def ShOwHiStOgRaM(file_path):
         os.remove(OuTpUt_FiLe)
         print("Usunięto plik histogram.png")
 
-def GeTfIlEpAtH():
-    global file_path
-    # Open and return file path
-    file_path = fd.askopenfilename(title="Select A File",filetypes=(('text files', '*.txt'), ('All files', '*.*')))
+
+
+
 
 ScIeZkA = os.getcwd()
 FiLe_PaTh = ScIeZkA + ('\\source_file.txt')
@@ -136,22 +135,52 @@ else:
     window = tk.Tk()
     window.title('Histogram')
     window.resizable(False, False)
-    window.geometry('400x200')
+    window.geometry('600x150')
     # widgets
+    mystring = tk.StringVar(window)
+    mystring2 = tk.StringVar(window)
+
+
+    def GeTfIlEpAtH():
+        global file_path
+        # Open and return file path
+        file_path = fd.askopenfilename(title="Select A File", filetypes=(('text files', '*.txt'), ('All files', '*.*')))
+        TeXt = ReAdTeXtFrOmFiLe(FiLe_PaTh)
+        GeNeRaTeAnDsAvE(TeXt, LiTeRy, OuTpUt_FiLe)
+
+
+    def getvalueURL():
+        val = mystring.get()
+        text = ReAdTeXtFrOmUrL(val)
+        GeNeRaTeAnDsAvE(text, LiTeRy, OuTpUt_FiLe)
+
+    def getvalueTXT():
+        val = mystring2.get()
+        GeNeRaTeAnDsAvE(val, LiTeRy, OuTpUt_FiLe)
+
+
     label = Label(window, text="Wybierz plik:")
     label.place(x=40, y=20)
-    b1 = tk.Button(window, text="Open File", command=GeTfIlEpAtH)
+    b1 = tk.Button(window, text="Wyświetl histogram z pliku", command=GeTfIlEpAtH)
     b1.place(x=160, y=20)
-    label = Label(window, text="Wprowadz url:")
-    label.place(x=40, y=20)
-    b2 = Button(window, text='Zamknij okno i wyswietl histogram', command=window.destroy)
-    b3 = Button(window, text='Wczytaj url i wyswietl histogram', command=window.destroy)
+    label2 = Label(window, text="Wprowadź url:")
+    label2.place(x=40, y=60)
+    inp = Entry(window, width=20, textvariable=mystring)
+    inp.place(x=160, y=60)
+    b2 = Button(window, text="Wyświetl histogram z url" , command=getvalueURL)
+    b2.place(x=320, y=55)
+    label3 = Label(window, text="Wprowadź url:")
+    label3.place(x=40, y=100)
+    inp = Entry(window, width=20, textvariable=mystring2)
+    inp.place(x=160, y=100)
+    b3 = Button(window, text="Wyświetl histogram z wprowadzonego textu", command=getvalueTXT)
+    b3.place(x=320, y=95)
+
+
 
     # events
     # run
     window.mainloop()
 
-    TeXt = ReAdTeXtFrOmFiLe(FiLe_PaTh)
-    GeNeRaTeAnDsAvE(TeXt, LiTeRy, OuTpUt_FiLe)
 
 
