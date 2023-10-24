@@ -2,21 +2,16 @@ import matplotlib
 import urllib.request
 import matplotlib.pyplot as plt
 import os
-from PIL import Image
+#from PIL import Image
 import urllib.request
 import tkinter as tk
 matplotlib.use('TkAgg')
-from tkinter import ttk
+#from tkinter import ttk
 from tkinter import *
 from tkinter import filedialog as fd
-from tkinter.messagebox import showinfo
-from PIL import Image,ImageTk
+#from tkinter.messagebox import showinfo
+#from PIL import Image,ImageTk
 import urllib.request
-
-ScIeZkA = os.getcwd()
-FiLe_PaTh = ScIeZkA + ('\\source_file.txt')
-OuTpUt_FiLe = ScIeZkA + ('\\histogram.png')
-
 
 def ReAdTeXtFrOmFiLe(file_path):
     try:
@@ -84,103 +79,102 @@ def ShOwHiStOgRaM(file_path):
         print("Usunięto plik histogram.png")
 
 
-
-
-
 ScIeZkA = os.getcwd()
 FiLe_PaTh = ScIeZkA + ('\\source_file.txt')
 OuTpUt_FiLe = ScIeZkA + ('\\histogram.png')
 LiTeRy = ""
-print("Czy chcesz korzystać z wersji konsolowej cz werjsi okienkowej? (konsola/okienko)")
-wybor = input()
-if wybor.lower() == "konsola" or wybor.lower() == "k":
-    print("Domyślnie liczane są wszystkie litery w tekście.")
-    AnS = input("Czy chcesz podać listę liter do sprawdzenia? (tak/nie): ")
-    LiTeRy = ""
-    if AnS.lower() == "tak" or AnS.lower() == "t":
-        LiTeRy = input("Podaj zestaw liter, oddziel poszczególne litery znakiem ','. Przykład: a,b,c : ")
-        LiTeRy = LiTeRy.split(",")
+WyBoR = input("Czy chcesz korzystać z wersji konsolowej cz werjsi okienkowej? (konsola/okienko)")
+FlAg = True
+while FlAg:
+    if WyBoR.lower() == "konsola" or WyBoR.lower() == "k":
+        FlAg = False
+        print("Domyślnie zliczane są wszystkie litery w tekście.")
+        AnS = input("Czy chcesz podać listę liter do sprawdzenia? (tak/nie): ")
+        LiTeRy = ""
+        if AnS.lower() == "tak" or AnS.lower() == "t":
+            LiTeRy = input("Podaj zestaw liter, oddziel poszczególne litery znakiem ','. Przykład: a,b,c : ")
+            LiTeRy = LiTeRy.split(",")
 
-    print("Wybierz skąd wprowadzić dane:")
-    print("1. Wprowadź z klawiatury.")
-    print("2. Podaj adres URL.")
-    print("3. Wczytaj z pliku source.txt")
-    OpTiOn = input("Wybierz (1-2):")
-    TeXt = ""
-    FlAg = True
-    while FlAg:
-        if OpTiOn == "1":
-            FlAg = False
-            TeXt = input("Wprowadź tekst:")
-            GeNeRaTeAnDsAvE(TeXt, LiTeRy, OuTpUt_FiLe)
-            ShOwHiStOgRaM(OuTpUt_FiLe)
+        print("Wybierz skąd wprowadzić dane:")
+        print("1. Wprowadź z klawiatury.")
+        print("2. Podaj adres URL.")
+        print("3. Wczytaj z pliku source.txt")
+        OpTiOn = input("Wybierz (1-3):")
+        TeXt = ""
+        FlAg2 = True
+        while FlAg2:
+            if OpTiOn == "1":
+                FlAg2 = False
+                TeXt = input("Wprowadź tekst:")
+                GeNeRaTeAnDsAvE(TeXt, LiTeRy, OuTpUt_FiLe)
+                ShOwHiStOgRaM(OuTpUt_FiLe)
 
-        elif OpTiOn == "2":
-            FlAg = False
-            UrL = input("Wprowadź adres: ")
-            TeXt = ReAdTeXtFrOmUrL(UrL)
-            GeNeRaTeAnDsAvE(TeXt, LiTeRy, OuTpUt_FiLe)
-            ShOwHiStOgRaM(OuTpUt_FiLe)
+            elif OpTiOn == "2":
+                FlAg2 = False
+                UrL = input("Wprowadź adres: ")
+                TeXt = ReAdTeXtFrOmUrL(UrL)
+                GeNeRaTeAnDsAvE(TeXt, LiTeRy, OuTpUt_FiLe)
+                ShOwHiStOgRaM(OuTpUt_FiLe)
 
-        elif OpTiOn == "3":
-            FlAg = False
+            elif OpTiOn == "3":
+                FlAg2 = False
+                TeXt = ReAdTeXtFrOmFiLe(FiLe_PaTh)
+                GeNeRaTeAnDsAvE(TeXt, LiTeRy, OuTpUt_FiLe)
+                ShOwHiStOgRaM(OuTpUt_FiLe)
+
+            else:
+                OpTiOn = input("Błąd. Wybierz (1-3):")
+    elif WyBoR == "okienko" or WyBoR == "o":
+        FlAg = False
+        # window
+        window = tk.Tk()
+        window.title('Histogram')
+        window.resizable(False, False)
+        window.geometry('600x150')
+        # widgets
+        mystring = tk.StringVar(window)
+        mystring2 = tk.StringVar(window)
+
+
+        def GeTfIlEpAtH():
+            global file_path
+            # Open and return file path
+            file_path = fd.askopenfilename(title="Select A File", filetypes=(('text files', '*.txt'), ('All files', '*.*')))
             TeXt = ReAdTeXtFrOmFiLe(FiLe_PaTh)
             GeNeRaTeAnDsAvE(TeXt, LiTeRy, OuTpUt_FiLe)
-            ShOwHiStOgRaM(OuTpUt_FiLe)
-
-        else:
-            OpTiOn = input("Błąd. Wybierz (1-3):")
-else:
-    # window
-    window = tk.Tk()
-    window.title('Histogram')
-    window.resizable(False, False)
-    window.geometry('600x150')
-    # widgets
-    mystring = tk.StringVar(window)
-    mystring2 = tk.StringVar(window)
 
 
-    def GeTfIlEpAtH():
-        global file_path
-        # Open and return file path
-        file_path = fd.askopenfilename(title="Select A File", filetypes=(('text files', '*.txt'), ('All files', '*.*')))
-        TeXt = ReAdTeXtFrOmFiLe(FiLe_PaTh)
-        GeNeRaTeAnDsAvE(TeXt, LiTeRy, OuTpUt_FiLe)
+        def getvalueURL():
+            val = mystring.get()
+            text = ReAdTeXtFrOmUrL(val)
+            GeNeRaTeAnDsAvE(text, LiTeRy, OuTpUt_FiLe)
+
+        def getvalueTXT():
+            val = mystring2.get()
+            GeNeRaTeAnDsAvE(val, LiTeRy, OuTpUt_FiLe)
 
 
-    def getvalueURL():
-        val = mystring.get()
-        text = ReAdTeXtFrOmUrL(val)
-        GeNeRaTeAnDsAvE(text, LiTeRy, OuTpUt_FiLe)
-
-    def getvalueTXT():
-        val = mystring2.get()
-        GeNeRaTeAnDsAvE(val, LiTeRy, OuTpUt_FiLe)
-
-
-    label = Label(window, text="Wybierz plik:")
-    label.place(x=40, y=20)
-    b1 = tk.Button(window, text="Wyświetl histogram z pliku", command=GeTfIlEpAtH)
-    b1.place(x=160, y=20)
-    label2 = Label(window, text="Wprowadź url:")
-    label2.place(x=40, y=60)
-    inp = Entry(window, width=20, textvariable=mystring)
-    inp.place(x=160, y=60)
-    b2 = Button(window, text="Wyświetl histogram z url" , command=getvalueURL)
-    b2.place(x=320, y=55)
-    label3 = Label(window, text="Wprowadź url:")
-    label3.place(x=40, y=100)
-    inp = Entry(window, width=20, textvariable=mystring2)
-    inp.place(x=160, y=100)
-    b3 = Button(window, text="Wyświetl histogram z wprowadzonego textu", command=getvalueTXT)
-    b3.place(x=320, y=95)
+        label = Label(window, text="Wybierz plik:")
+        label.place(x=40, y=20)
+        b1 = tk.Button(window, text="Wyświetl histogram z pliku", command=GeTfIlEpAtH)
+        b1.place(x=160, y=20)
+        label2 = Label(window, text="Wprowadź url:")
+        label2.place(x=40, y=60)
+        inp = Entry(window, width=20, textvariable=mystring)
+        inp.place(x=160, y=60)
+        b2 = Button(window, text="Wyświetl histogram z url" , command=getvalueURL)
+        b2.place(x=320, y=55)
+        label3 = Label(window, text="Wprowadź url:")
+        label3.place(x=40, y=100)
+        inp = Entry(window, width=20, textvariable=mystring2)
+        inp.place(x=160, y=100)
+        b3 = Button(window, text="Wyświetl histogram z wprowadzonego textu", command=getvalueTXT)
+        b3.place(x=320, y=95)
 
 
 
-    # events
-    # run
-    window.mainloop()
-
-
-
+        # events
+        # run
+        window.mainloop()
+    else:
+        WyBoR = input("Wpisz 'konsola' lub 'okienko' dla odpowiedniego trybu wyświetlania: ")
