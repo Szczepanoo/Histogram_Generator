@@ -11,8 +11,7 @@ from tkinter import *
 from tkinter import filedialog as fd
 from tkinter.messagebox import showinfo
 from PIL import Image,ImageTk
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
-from matplotlib.figure import Figure
+import urllib.request
 
 ScIeZkA = os.getcwd()
 FiLe_PaTh = ScIeZkA + ('\\source_file.txt')
@@ -54,6 +53,7 @@ def SaVeHiStOgRaMtOfIlE(letter_counts, output_file):
 
         plt.xticks(letters)
 
+
         plt.savefig(output_file, format='png')
         plt.show()
 
@@ -86,9 +86,70 @@ def ShOwHiStOgRaM(file_path):
         print("Usunięto plik histogram.png")
 
 def GeTfIlEpAtH():
+  
     global file_path
     # Open and return file path
     file_path = fd.askopenfilename(title="Select A File",filetypes=(('text files', '*.txt'), ('All files', '*.*')))
+
+ScIeZkA = os.getcwd()
+FiLe_PaTh = ScIeZkA + ('\\source_file.txt')
+OuTpUt_FiLe = ScIeZkA + ('\\histogram.png')
+LiTeRy = ""
+print("Czy chcesz korzystać z wersji konsolowej cz werjsi okienkowej? (konsola/okienko)")
+wybor = input()
+if wybor.lower() == "konsola" or wybor.lower() == "k":
+    print("Domyślnie liczane są wszystkie litery w tekście.")
+    AnS = input("Czy chcesz podać listę liter do sprawdzenia? (tak/nie): ")
+    LiTeRy = ""
+    if AnS.lower() == "tak" or AnS.lower() == "t":
+        LiTeRy = input("Podaj zestaw liter, oddziel poszczególne litery znakiem ','. Przykład: a,b,c : ")
+        LiTeRy = LiTeRy.split(",")
+
+    print("Wybierz skąd wprowadzić dane:")
+    print("1. Wprowadź z klawiatury.")
+    print("2. Podaj adres URL.")
+    print("3. Wczytaj z pliku source.txt")
+    OpTiOn = input("Wybierz (1-2):")
+    TeXt = ""
+    FlAg = True
+    while FlAg:
+        if OpTiOn == "1":
+            FlAg = False
+            TeXt = input("Wprowadź tekst:")
+            GeNeRaTeAnDsAvE(TeXt, LiTeRy, OuTpUt_FiLe)
+            ShOwHiStOgRaM(OuTpUt_FiLe)
+
+        elif OpTiOn == "2":
+            FlAg = False
+            UrL = input("Wprowadź adres: ")
+            TeXt = ReAdTeXtFrOmUrL(UrL)
+            GeNeRaTeAnDsAvE(TeXt, LiTeRy, OuTpUt_FiLe)
+            ShOwHiStOgRaM(OuTpUt_FiLe)
+
+        elif OpTiOn == "3":
+            FlAg = False
+            TeXt = ReAdTeXtFrOmFiLe(FiLe_PaTh)
+            GeNeRaTeAnDsAvE(TeXt, LiTeRy, OuTpUt_FiLe)
+            ShOwHiStOgRaM(OuTpUt_FiLe)
+
+        else:
+            OpTiOn = input("Błąd. Wybierz (1-3):")
+else:
+    # window
+    window = tk.Tk()
+    window.title('Histogram')
+    window.resizable(False, False)
+    window.geometry('300x150')
+    # widgets
+    b1 = tk.Button(window, text="Open File", command=get_file_path).pack(pady=10)
+    b2 = Button(window, text='Zamknij okno i wyswietl histogram', command=window.destroy).pack(pady=10)
+    # events
+    # run
+    window.mainloop()
+
+    TeXt = ReAdTeXtFrOmFiLe(FiLe_PaTh)
+    GeNeRaTeAnDsAvE(TeXt, LiTeRy, OuTpUt_FiLe)
+
 
 # window
 window = tk.Tk()
