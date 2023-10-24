@@ -41,6 +41,7 @@ def save_histogram_to_file(letter_counts, output_file):
 
         print("Zapisano histogram do pliku histogram.png")
 
+#funkcja wczytująca
 def read_text_from_url(url):
     try:
         response = urllib.request.urlopen(url)
