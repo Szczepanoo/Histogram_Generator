@@ -117,4 +117,4 @@ while FlAg:
             os.remove(OuTpUt_FiLe)
             print("Usunięto plik histogram.png")
     else:
-        OpTiOn = input("Błąd. Wybierz (1-2):")
+        OpTiOn = input("Błąd. Wybierz (1-3):")
