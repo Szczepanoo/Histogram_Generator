@@ -1,8 +1,22 @@
+import matplotlib
 import urllib.request
 import matplotlib.pyplot as plt
 import os
 from PIL import Image
 import urllib.request
+import tkinter as tk
+matplotlib.use('TkAgg')
+from tkinter import ttk
+from tkinter import *
+from tkinter import filedialog as fd
+from tkinter.messagebox import showinfo
+from PIL import Image,ImageTk
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+from matplotlib.figure import Figure
+
+ScIeZkA = os.getcwd()
+FiLe_PaTh = ScIeZkA + ('\\source_file.txt')
+OuTpUt_FiLe = ScIeZkA + ('\\histogram.png')
 
 
 def ReAdTeXtFrOmFiLe(file_path):
@@ -40,7 +54,6 @@ def SaVeHiStOgRaMtOfIlE(letter_counts, output_file):
 
         plt.xticks(letters)
 
-
         plt.savefig(output_file, format='png')
         plt.show()
 
@@ -72,10 +85,27 @@ def ShOwHiStOgRaM(file_path):
         os.remove(OuTpUt_FiLe)
         print("Usunięto plik histogram.png")
 
+def GeTfIlEpAtH():
+    global file_path
+    # Open and return file path
+    file_path = fd.askopenfilename(title="Select A File",filetypes=(('text files', '*.txt'), ('All files', '*.*')))
 
-ScIeZkA = os.getcwd()
-FiLe_PaTh = ScIeZkA + ('\\source_file.txt')
-OuTpUt_FiLe = ScIeZkA + ('\\histogram.png')
+# window
+window = tk.Tk()
+window.title('Histogram')
+window.resizable(False, False)
+window.geometry('300x150')
+# widgets
+b1 = tk.Button(window, text="Open File", command=GeTfIlEpAtH).pack(pady = 10)
+b2 = Button(window, text = 'Zamknij okno i wyswietl histogram', command = window.destroy).pack(pady = 10)
+# events
+# run
+window.mainloop()
+LeTtEr_CoUnTs = GeNeRaTeHiStOgRaMFrOmTeXt(FiLe_PaTh, "")
+if LeTtEr_CoUnTs is not None:
+    SaVeHiStOgRaMtOfIlE(LeTtEr_CoUnTs, OuTpUt_FiLe)
+
+
 print("Domyślnie liczane są wszystkie litery w tekście.")
 AnS = input("Czy chcesz podać listę liter do sprawdzenia? (tak/nie): ")
 LiTeRy = ""
