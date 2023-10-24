@@ -54,13 +54,15 @@ def ReAdTeXtFrOmUrL(url):
         print("Błąd podczas pobierania tekstu", e)
         return ""
 
-
+#Funkcja generuje i zapisuje histogram
 def GeNeRaTeAnDsAvE(text, chars, output_file):
-    SaVeHiStOgRaMtOfIlE(GeNeRaTeHiStOgRaMFrOmTeXt(text), output_file)
+    SaVeHiStOgRaMtOfIlE(GeNeRaTeHiStOgRaMFrOmTeXt(text, chars), output_file)
+
 
 def ShOwHiStOgRaM(file_path):
     FoTo = Image.open(file_path)
     FoTo.show()
+
 
 ScIeZkA = os.getcwd()
 FiLe_PaTh = ScIeZkA + ('\\source_file.txt')
