@@ -1,0 +1,189 @@
+Index: main.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>from tkinter import *\r\nfrom tkinter import filedialog as fd\r\nimport urllib.request\r\nimport matplotlib\r\nimport urllib.request\r\nimport matplotlib.pyplot as plt\r\nimport os\r\nimport urllib.request\r\nimport tkinter as tk\r\nmatplotlib.use('TkAgg')\r\n\r\n\r\ndef ReAdTeXtFrOmFiLe(file_path):\r\n    try:\r\n        with open(file_path, 'r') as file:\r\n            text = file.read()\r\n    except FileNotFoundError:\r\n        print(\"Nie można znaleźć pliku:\", file_path)\r\n        return None\r\n\r\n    return text\r\n\r\n\r\ndef GeNeRaTeHiStOgRaMFrOmTeXt(text, chars):\r\n    letter_counts = {}\r\n    char_filter = set(chars)\r\n\r\n    for char in text:\r\n        if char.isalpha() and (not char_filter or char in char_filter):\r\n            # char = char.lower()  # Opcjonalnie: zamiana na małe litery\r\n            letter_counts[char] = letter_counts.get(char, 0) + 1\r\n    return letter_counts\r\n\r\n\r\ndef SaVeHiStOgRaMtOfIlE(letter_counts, output_file):\r\n    if letter_counts is not None:\r\n        letters = list(letter_counts.keys())\r\n        counts = list(letter_counts.values())\r\n\r\n        plt.bar(letters, counts)\r\n        plt.xlabel('Litery')\r\n        plt.ylabel('Liczba wystąpień')\r\n        plt.title('Histogram częstotliwości liter')\r\n\r\n        plt.xticks(letters)\r\n\r\n        plt.savefig(output_file, format='png')\r\n        plt.show()\r\n\r\n        print(\"Zapisano histogram do pliku histogram.png\")\r\n\r\n\r\ndef ReAdTeXtFrOmUrL(url):\r\n    try:\r\n        response = urllib.request.urlopen(url)\r\n        data = response.read()\r\n        text = data.decode(\"utf-8\")\r\n        return text\r\n    except Exception as e:\r\n        print(\"Błąd podczas pobierania tekstu\", e)\r\n        return \"\"\r\n\r\n\r\n# Funkcja generuje i zapisuje histogram\r\ndef GeNeRaTeAnDsAvE(text, chars, output_file):\r\n    SaVeHiStOgRaMtOfIlE(GeNeRaTeHiStOgRaMFrOmTeXt(text, chars), output_file)\r\n\r\n\r\ndef ReMoVeHiStOgRaM():\r\n    odp = input(\"Czy chcesz usunąć plik histogram.png? (tak/nie)\").lower()\r\n    temp_flag = True\r\n    while temp_flag:\r\n        if odp == 'tak' or odp == 't':\r\n            temp_flag = False\r\n            os.remove(OuTpUt_FiLe)\r\n            print(\"Usunięto plik histogram.png\")\r\n        elif odp != \"nie\" or odp != \"n\":\r\n            odp = input(\"Błąd. Wpisz 'tak' lub 'nie': \").lower()\r\n\r\n\r\nScIeZkA = os.getcwd()\r\nFiLe_PaTh = ScIeZkA + '\\\\source_file.txt'\r\nOuTpUt_FiLe = ScIeZkA + '\\\\histogram.png'\r\nLiTeRy = \"\"\r\nWyBoR = input(\"Chcesz korzystać z wersji konsolowej czy wersji okienkowej? (konsola/okienko)\").lower()\r\nFlAg = True\r\nwhile FlAg:\r\n    if WyBoR == \"konsola\" or WyBoR == \"k\":\r\n        FlAg = False\r\n        print(\"Domyślnie zliczane są wszystkie litery w tekście.\")\r\n        AnS = input(\"Czy chcesz podać listę liter do sprawdzenia? (tak/nie): \")\r\n        LiTeRy = \"\"\r\n        if AnS.lower() == \"tak\" or AnS.lower() == \"t\":\r\n            LiTeRy = input(\"Podaj zestaw liter, oddziel poszczególne litery znakiem ','. Przykład: a,b,c : \")\r\n            LiTeRy = LiTeRy.split(\",\")\r\n\r\n        print(\"Wybierz skąd wprowadzić dane:\")\r\n        print(\"1. Wprowadź z klawiatury.\")\r\n        print(\"2. Podaj adres URL.\")\r\n        print(\"3. Wczytaj z pliku source.txt\")\r\n        OpTiOn = input(\"Wybierz (1-3):\")\r\n        TeXt = \"\"\r\n        FlAg2 = True\r\n        while FlAg2:\r\n            if OpTiOn == \"1\":\r\n                FlAg2 = False\r\n                TeXt = input(\"Wprowadź tekst:\")\r\n                GeNeRaTeAnDsAvE(TeXt, LiTeRy, OuTpUt_FiLe)\r\n                ReMoVeHiStOgRaM()\r\n\r\n            elif OpTiOn == \"2\":\r\n                FlAg2 = False\r\n                UrL = input(\"Wprowadź adres: \")\r\n                TeXt = ReAdTeXtFrOmUrL(UrL)\r\n                GeNeRaTeAnDsAvE(TeXt, LiTeRy, OuTpUt_FiLe)\r\n                ReMoVeHiStOgRaM()\r\n\r\n            elif OpTiOn == \"3\":\r\n                FlAg2 = False\r\n                TeXt = ReAdTeXtFrOmFiLe(FiLe_PaTh)\r\n                GeNeRaTeAnDsAvE(TeXt, LiTeRy, OuTpUt_FiLe)\r\n                ReMoVeHiStOgRaM()\r\n\r\n            else:\r\n                OpTiOn = input(\"Błąd. Wybierz (1-3):\")\r\n    elif WyBoR == \"okienko\" or WyBoR == \"o\":\r\n        FlAg = False\r\n        # window\r\n        window = tk.Tk()\r\n        window.title('Histogram')\r\n        window.resizable(False, False)\r\n        window.geometry('600x150')\r\n        # widgets\r\n        mystring = tk.StringVar(window)\r\n        mystring2 = tk.StringVar(window)\r\n\r\n\r\n        def GeTfIlEpAtH():\r\n            # Open and return file path\r\n            file_path = fd.askopenfilename(title=\"Select A File\",\r\n                                           filetypes=(('text files', '*.txt'), ('All files', '*.*')))\r\n            text = ReAdTeXtFrOmFiLe(file_path)\r\n            GeNeRaTeAnDsAvE(text, LiTeRy, OuTpUt_FiLe)\r\n\r\n\r\n        def getvalueURL():\r\n            val = mystring.get()\r\n            text = ReAdTeXtFrOmUrL(val)\r\n            GeNeRaTeAnDsAvE(text, LiTeRy, OuTpUt_FiLe)\r\n\r\n\r\n        def getvalueTXT():\r\n            val = mystring2.get()\r\n            GeNeRaTeAnDsAvE(val, LiTeRy, OuTpUt_FiLe)\r\n\r\n\r\n        label = Label(window, text=\"Wybierz plik:\")\r\n        label.place(x=40, y=20)\r\n        b1 = tk.Button(window, text=\"Wyświetl histogram z pliku\", command=GeTfIlEpAtH)\r\n        b1.place(x=160, y=20)\r\n        label2 = Label(window, text=\"Wprowadź url:\")\r\n        label2.place(x=40, y=60)\r\n        inp = Entry(window, width=20, textvariable=mystring)\r\n        inp.place(x=160, y=60)\r\n        b2 = Button(window, text=\"Wyświetl histogram z url\", command=getvalueURL)\r\n        b2.place(x=320, y=55)\r\n        label3 = Label(window, text=\"Wprowadź tekst:\")\r\n        label3.place(x=40, y=100)\r\n        inp = Entry(window, width=20, textvariable=mystring2)\r\n        inp.place(x=160, y=100)\r\n        b3 = Button(window, text=\"Wyświetl histogram z wprowadzonego textu\", command=getvalueTXT)\r\n        b3.place(x=320, y=95)\r\n\r\n        # events\r\n        # run\r\n        window.mainloop()\r\n    else:\r\n        WyBoR = input(\"Wpisz 'konsola' lub 'okienko' dla odpowiedniego trybu wyświetlania: \")\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/main.py b/main.py
+--- a/main.py	(revision 90dd6242ccc0072868d8fbd29e2e7a2619b5ec41)
++++ b/main.py	(date 1698510028510)
+@@ -1,178 +1,0 @@
+-from tkinter import *
+-from tkinter import filedialog as fd
+-import urllib.request
+-import matplotlib
+-import urllib.request
+-import matplotlib.pyplot as plt
+-import os
+-import urllib.request
+-import tkinter as tk
+-matplotlib.use('TkAgg')
+-
+-
+-def ReAdTeXtFrOmFiLe(file_path):
+-    try:
+-        with open(file_path, 'r') as file:
+-            text = file.read()
+-    except FileNotFoundError:
+-        print("Nie można znaleźć pliku:", file_path)
+-        return None
+-
+-    return text
+-
+-
+-def GeNeRaTeHiStOgRaMFrOmTeXt(text, chars):
+-    letter_counts = {}
+-    char_filter = set(chars)
+-
+-    for char in text:
+-        if char.isalpha() and (not char_filter or char in char_filter):
+-            # char = char.lower()  # Opcjonalnie: zamiana na małe litery
+-            letter_counts[char] = letter_counts.get(char, 0) + 1
+-    return letter_counts
+-
+-
+-def SaVeHiStOgRaMtOfIlE(letter_counts, output_file):
+-    if letter_counts is not None:
+-        letters = list(letter_counts.keys())
+-        counts = list(letter_counts.values())
+-
+-        plt.bar(letters, counts)
+-        plt.xlabel('Litery')
+-        plt.ylabel('Liczba wystąpień')
+-        plt.title('Histogram częstotliwości liter')
+-
+-        plt.xticks(letters)
+-
+-        plt.savefig(output_file, format='png')
+-        plt.show()
+-
+-        print("Zapisano histogram do pliku histogram.png")
+-
+-
+-def ReAdTeXtFrOmUrL(url):
+-    try:
+-        response = urllib.request.urlopen(url)
+-        data = response.read()
+-        text = data.decode("utf-8")
+-        return text
+-    except Exception as e:
+-        print("Błąd podczas pobierania tekstu", e)
+-        return ""
+-
+-
+-# Funkcja generuje i zapisuje histogram
+-def GeNeRaTeAnDsAvE(text, chars, output_file):
+-    SaVeHiStOgRaMtOfIlE(GeNeRaTeHiStOgRaMFrOmTeXt(text, chars), output_file)
+-
+-
+-def ReMoVeHiStOgRaM():
+-    odp = input("Czy chcesz usunąć plik histogram.png? (tak/nie)").lower()
+-    temp_flag = True
+-    while temp_flag:
+-        if odp == 'tak' or odp == 't':
+-            temp_flag = False
+-            os.remove(OuTpUt_FiLe)
+-            print("Usunięto plik histogram.png")
+-        elif odp != "nie" or odp != "n":
+-            odp = input("Błąd. Wpisz 'tak' lub 'nie': ").lower()
+-
+-
+-ScIeZkA = os.getcwd()
+-FiLe_PaTh = ScIeZkA + '\\source_file.txt'
+-OuTpUt_FiLe = ScIeZkA + '\\histogram.png'
+-LiTeRy = ""
+-WyBoR = input("Chcesz korzystać z wersji konsolowej czy wersji okienkowej? (konsola/okienko)").lower()
+-FlAg = True
+-while FlAg:
+-    if WyBoR == "konsola" or WyBoR == "k":
+-        FlAg = False
+-        print("Domyślnie zliczane są wszystkie litery w tekście.")
+-        AnS = input("Czy chcesz podać listę liter do sprawdzenia? (tak/nie): ")
+-        LiTeRy = ""
+-        if AnS.lower() == "tak" or AnS.lower() == "t":
+-            LiTeRy = input("Podaj zestaw liter, oddziel poszczególne litery znakiem ','. Przykład: a,b,c : ")
+-            LiTeRy = LiTeRy.split(",")
+-
+-        print("Wybierz skąd wprowadzić dane:")
+-        print("1. Wprowadź z klawiatury.")
+-        print("2. Podaj adres URL.")
+-        print("3. Wczytaj z pliku source.txt")
+-        OpTiOn = input("Wybierz (1-3):")
+-        TeXt = ""
+-        FlAg2 = True
+-        while FlAg2:
+-            if OpTiOn == "1":
+-                FlAg2 = False
+-                TeXt = input("Wprowadź tekst:")
+-                GeNeRaTeAnDsAvE(TeXt, LiTeRy, OuTpUt_FiLe)
+-                ReMoVeHiStOgRaM()
+-
+-            elif OpTiOn == "2":
+-                FlAg2 = False
+-                UrL = input("Wprowadź adres: ")
+-                TeXt = ReAdTeXtFrOmUrL(UrL)
+-                GeNeRaTeAnDsAvE(TeXt, LiTeRy, OuTpUt_FiLe)
+-                ReMoVeHiStOgRaM()
+-
+-            elif OpTiOn == "3":
+-                FlAg2 = False
+-                TeXt = ReAdTeXtFrOmFiLe(FiLe_PaTh)
+-                GeNeRaTeAnDsAvE(TeXt, LiTeRy, OuTpUt_FiLe)
+-                ReMoVeHiStOgRaM()
+-
+-            else:
+-                OpTiOn = input("Błąd. Wybierz (1-3):")
+-    elif WyBoR == "okienko" or WyBoR == "o":
+-        FlAg = False
+-        # window
+-        window = tk.Tk()
+-        window.title('Histogram')
+-        window.resizable(False, False)
+-        window.geometry('600x150')
+-        # widgets
+-        mystring = tk.StringVar(window)
+-        mystring2 = tk.StringVar(window)
+-
+-
+-        def GeTfIlEpAtH():
+-            # Open and return file path
+-            file_path = fd.askopenfilename(title="Select A File",
+-                                           filetypes=(('text files', '*.txt'), ('All files', '*.*')))
+-            text = ReAdTeXtFrOmFiLe(file_path)
+-            GeNeRaTeAnDsAvE(text, LiTeRy, OuTpUt_FiLe)
+-
+-
+-        def getvalueURL():
+-            val = mystring.get()
+-            text = ReAdTeXtFrOmUrL(val)
+-            GeNeRaTeAnDsAvE(text, LiTeRy, OuTpUt_FiLe)
+-
+-
+-        def getvalueTXT():
+-            val = mystring2.get()
+-            GeNeRaTeAnDsAvE(val, LiTeRy, OuTpUt_FiLe)
+-
+-
+-        label = Label(window, text="Wybierz plik:")
+-        label.place(x=40, y=20)
+-        b1 = tk.Button(window, text="Wyświetl histogram z pliku", command=GeTfIlEpAtH)
+-        b1.place(x=160, y=20)
+-        label2 = Label(window, text="Wprowadź url:")
+-        label2.place(x=40, y=60)
+-        inp = Entry(window, width=20, textvariable=mystring)
+-        inp.place(x=160, y=60)
+-        b2 = Button(window, text="Wyświetl histogram z url", command=getvalueURL)
+-        b2.place(x=320, y=55)
+-        label3 = Label(window, text="Wprowadź tekst:")
+-        label3.place(x=40, y=100)
+-        inp = Entry(window, width=20, textvariable=mystring2)
+-        inp.place(x=160, y=100)
+-        b3 = Button(window, text="Wyświetl histogram z wprowadzonego textu", command=getvalueTXT)
+-        b3.place(x=320, y=95)
+-
+-        # events
+-        # run
+-        window.mainloop()
+-    else:
+-        WyBoR = input("Wpisz 'konsola' lub 'okienko' dla odpowiedniego trybu wyświetlania: ")
